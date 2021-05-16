@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title th:text="${anime.getName}"></title>
+</head>
+<body>
+<div>
+    <section>
+        <div class="container">
+            <div class="shadow-lg p-3 mb-5 rounded bg-info" >
+                <a class="shadow-lg p-3 mb-5 rounded bg-danger text-warning" href="/" >Аниме БД</a>
+                <a href="/Characters"><button type="button" class="btn btn-secondary">Characters</button></a>
+                <a href="/Authors"><button type="button" class="btn btn-secondary" href="Authors">Authors</button></a>
+                <a href="/Anime"><button type="button" class="btn btn-secondary">Anime</button></a></div>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Название:</th>
+            <th th:text="${anime.getName()}" class="col"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Тип:</th>
+                <th th:text="${anime.getType().getType()}" class="col"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Статус:</th>
+                <th th:text="${anime.getStatus().getStatus()}" class="col"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Время выхода:</th>
+                <th th:text="${anime.getStartDate()}" class="col"></th>
+                <th th:text="${anime.getEndDate()}" class="col"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Возрастной рейтинг:</th>
+                <th th:text="${anime.getAgeRating().getAgeRating()}" class="col"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Лицензировщик:</th>
+                <th th:text="${anime.getLicensor().getLicensor()}" class="col"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Студия:</th>
+                <th th:text="${anime.getStudio().getStudio()}" class="col"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Авторы:</th>
+            <tр th:each="Author : ${anime.getAuthorList()}" >
+                <th> <a th:href="@{/Author/{id}(id=${Author.getAuthorId()})}" th:text="${Author.getAuthorName()}"></th>
+            </tр>
+
+                </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Персонажи:</th>
+                <tр th:each="Character : ${anime.getCharacterList()}" >
+                    <th> <a th:href="@{/Character/{id}(id=${Character.getCharacterId})}" th:text="${Character.getCharacterName()}"></th>
+                </tр>
+
+            </table>
+            <a th:href="@{/Anime/Edit/{id}(id=${anime.getId()})}"><button type="button" class="btn btn-secondary">Изменить</button></a><a th:href="@{/Anime/Delete/{id}(id=${anime.getId()})}"><button type="button" class="btn btn-secondary" href="Delete">Удалить</button></a>
+        </div>
+    </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+</body>
+</html>

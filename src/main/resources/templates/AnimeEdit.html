@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+        <html lang="en" xmlns:th="http://www.thymeleaf.org">
+        <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <meta charset="UTF-8">
+        <title th:text="${anime.getName}"></title>
+</head>
+<body>
+<div>
+    <div class="shadow-lg p-3 mb-5 rounded bg-info" >
+        <a class="shadow-lg p-3 mb-5 rounded bg-danger text-warning" href="/" >Аниме БД</a>
+        <a href="/Characters"><button type="button" class="btn btn-secondary">Characters</button></a>
+        <a href="/Authors"><button type="button" class="btn btn-secondary" href="Authors">Authors</button></a>
+        <a href="/Anime"><button type="button" class="btn btn-secondary">Anime</button></a></div>
+    <form th:method="PATCH"  th:action="@{/Anime/{id}(id=${anime.getId()})}" th:object="${anime}">
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th class="col-2"></th>
+                <th class="col-5">Текущее</th>
+                <th class="col-5">Измененное</th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Название:</th>
+                <th class="col-5" th:text="${anime.getName()}"></th>
+                <th><input th:field="*{name}" id="Name" type="text"></th>
+                </th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Тип:</th>
+                <th th:text="${anime.getType().getType()}" class="col-5"></th>
+                <th class="input-group">
+                    <select th:field="*{type}" class="form-select" id="Type">
+                        <option value="1">Фильм</option>
+                        <option value="2">ТВ</option>
+                        <option value="3">OVA</option>
+                        <option value="4">ONA</option>
+                        <option value="5">Спешл</option>
+                    </select>
+                </th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Статус:</th>
+                <th th:text="${anime.getStatus().getStatus()}" class="col-5"></th>
+                <th class="input-group">
+                    <select th:field="*{status}" class="form-select" id="Status">
+                        <option value="1">Анонс</option>
+                        <option value="2">Сейчас выходит</option>
+                        <option value="3">Вышло</option>
+                    </select>
+                </th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Время выхода:</th>
+                <th th:text="${anime.getStartDate()}" class="col-2"></th>
+                <th th:text="${anime.getEndDate()}" class="col-3"></th>
+                <th><input th:type="date" th:field="*{startDate}" id="startDate" type="text"></th>
+                <th><input th:type="date" th:field="*{endDate}" id="endDate" type="text"></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Возрастной рейтинг:</th>
+                <th th:text="${anime.getAgeRating().getAgeRating()}" class="col-5"></th>
+                <th class="input-group">
+                    <select th:field="*{ageRating}" class="form-select" id="ageRating">
+                        <option value="1">G</option>
+                        <option value="2">PG</option>
+                        <option value="3">PG-13</option>
+                        <option value="4">R-17</option>
+                        <option value="5">R+</option>
+                        <option value="6">Rx</option>
+                    </select>
+                </th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Лицензировщик:</th>
+                <th th:text="${anime.getLicensor().getLicensor()}" class="col-5"></th>
+                <th><select class="form-select" th:field="*{licensor}" id="licensors">
+                    <option th:each="licensor : ${licensors}" th:value="${licensor.getLicensorId()}" th:text="${licensor.getLicensor()}"></option>
+                </select></th>
+            </table>
+            <table class="table table-info table-striped table-bordered border-primary">
+                <th scope="col" class="col-2">Студия:</th>
+                <th th:text="${anime.getStudio().getStudio()}" class="col-5"></th>
+                <th><select class="form-select" th:field="*{studio}" id="studio">
+                    <option th:each="studio : ${studios}" th:value="${studio.getStudioId()}" th:text="${studio.getStudio()}"></option>
+                </select></th>
+            </table>
+        <div style="float: left">
+                <h1 scope="col" class="col-2">Авторы:</h1>
+        <select style="height: 200px; width: 350px;" class="select mb-2" multiple th:field="*{authorList}" id="authorList">
+            <option th:each="aut : ${authors}" th:value="${aut.getAuthorId()}" th:text="${aut.authorName}"></option>
+        </select>
+            </div>
+        <div style="float: left">
+                <h1  scope="col" class="col-2">Персонажи:</h1>
+        <select style="height: 200px; width: 350px;" class="select mb-2" multiple th:field="*{characterList}" id="charList">
+            <option th:each="cha: ${characters}" th:value="${cha.getCharacterId()}" th:text="${cha.getCharacterName()}"></option>
+        </select>
+        </div>
+            <button type="submit" class="btn btn-primary btn-block"> Edit </button>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+    </body>
+    </html></title>
+</head>
+<body>
+
+</body>
+</html>
